@@ -47,14 +47,31 @@ def lex(filecontents):
             # between quotes, gather chars to the string
             currentstring += token
             token = ""
+    return tokens
+    # print(tokens)
 
-    print(tokens)
-            
+
+def parse(tokens):
+    # print(tokens) 
+    i = 0
+    while(i < len(tokens)):
+        # print(tokens[i])
+        if tokens[i] == "PRINT":
+            # print something
+            if tokens[i + 1][0:6] == "STRING":
+                # print string
+                print(tokens[i + 1][7:])
+        i += 2
+    # end while
+
 
 
 def run():
     data = open_file(argv[1])
-    lex(data)
+    # lexer
+    tokens = lex(data)
+    # pass lex result to parser
+    parse(tokens)
 
 
 run()
