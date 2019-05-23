@@ -28,7 +28,7 @@ def lex(filecontents):
         elif token == "\n":
             token = ""
         #  keywords
-        elif token == "PRINT":
+        elif token.upper() == "PRINT":
             tokens.append("PRINT")
             token = ""
         # strings
