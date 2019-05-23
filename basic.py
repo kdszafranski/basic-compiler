@@ -51,9 +51,8 @@ def lex(filecontents):
                 print(currentexpression)
                 token = ""
             elif expression == 1:
-            #     # print(currentexpression)
                 currentexpression += token
-            #     expression = 0
+                token = ""
         # strings
         elif token == "\"":
             if state == 0:
