@@ -3,7 +3,6 @@ from sys import *
 tokens = []
 
 def open_file(filename):
-    print("working...")
     data = open(filename, "r").read()
     return data
 
@@ -12,7 +11,9 @@ def open_file(filename):
 def lex(filecontents):
     token = ""
     state = 0
+    expression = 0
     currentstring = ""
+    currentexpression = ""
 
     filecontents = list(filecontents)
 
@@ -26,17 +27,38 @@ def lex(filecontents):
                 token = " "
         # ignore newlines
         elif token == "\n":
+            print("new line")
             token = ""
+            if expression == 1:
+                print("ending expression")
+                tokens.append("EXP:" + currentexpression)
+                currentexpression = ""
+                expression = 0
         #  keywords
         elif token.upper() == "PRINT":
             tokens.append("PRINT")
             token = ""
+        # numbers/expressions
+        # 8
+        # 10
+        # 10 +-/*
+        elif token.isnumeric():
+            print("numeric: " + token)
+            if expression == 0:
+                print("new expression")
+                expression = 1
+                currentexpression += token
+                print(currentexpression)
+                token = ""
+            # elif expression == 1:
+            #     # print(currentexpression)
+            #     currentexpression += token
+            #     expression = 0
         # strings
         elif token == "\"":
             if state == 0:
                 # first quote, start of string
                 state = 1
-                # token = ""
             elif state == 1:
                 # 2nd quote, end of string, reset string and quote state
                 tokens.append("STRING:" + currentstring + "\"")
@@ -47,8 +69,8 @@ def lex(filecontents):
             # between quotes, gather chars to the string
             currentstring += token
             token = ""
-    return tokens
-    # print(tokens)
+    # return tokens
+    print(tokens)
 
 
 def parse(tokens):
@@ -71,7 +93,7 @@ def run():
     # lexer
     tokens = lex(data)
     # pass lex result to parser
-    parse(tokens)
+    # parse(tokens)
 
 
 run()
