@@ -14,6 +14,7 @@ def lex(filecontents):
     expression = 0
     currentstring = ""
     currentexpression = ""
+    symbols = ["+", "-", "/", "*"]
 
     filecontents = list(filecontents)
 
@@ -39,9 +40,8 @@ def lex(filecontents):
             tokens.append("PRINT")
             token = ""
         # numbers/expressions
-        # 8
-        # 10
-        # 10 +-/*
+        # 8  # 10  # 10 + 22
+        # EXP:
         elif token.isnumeric():
             print("numeric: " + token)
             if expression == 0:
@@ -53,6 +53,8 @@ def lex(filecontents):
             elif expression == 1:
                 currentexpression += token
                 token = ""
+        elif token in(symbols):
+            print("symbol: " + token)
         # strings
         elif token == "\"":
             if state == 0:
